@@ -425,11 +425,14 @@ void free_cll(CircularLinkedList* cll) {
         return;
     }
     
+    // Store head before breaking circle
+    Node* head = cll->tail->next;
+    
     // Break the circle
     cll->tail->next = NULL;
     
-    // Free all nodes
-    Node* current = cll->tail->next; // Head
+    // Free all nodes starting from head
+    Node* current = head;
     while (current != NULL) {
         Node* next = current->next;
         free(current);
