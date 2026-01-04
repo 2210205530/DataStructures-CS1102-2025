@@ -9,7 +9,7 @@
 
 // Include the functions from dll.c
 // We'll include the source directly for testing
-#include "dll.c"
+#include "dll.h"
 
 /**
  * Test creation and basic insertion
