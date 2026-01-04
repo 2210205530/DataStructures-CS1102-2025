@@ -1,8 +1,6 @@
 /**
  *student name [meseud hadis redi]
  *student id[2210205530]
- * file dll.c
- * brief Doubly Linked List implementation
  * Time Complexity:
  *   - Insert at head/tail: O(1)
  *   - Insert at position: O(n)
