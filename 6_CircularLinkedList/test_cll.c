@@ -8,7 +8,7 @@
 #include <assert.h>
 
 // Include the functions from cll.c
-#include "cll.c"
+#include "cll.h"
 
 /**
  * Test creation and basic insertion
