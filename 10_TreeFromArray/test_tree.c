@@ -10,7 +10,7 @@
 #include <limits.h>
 
 // Include the functions from tree_from_array.c
-#include "tree_from_array.c"
+#include "tree_from_array.h"
 
 /**
  * Test tree creation from array
