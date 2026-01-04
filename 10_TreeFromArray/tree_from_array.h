@@ -1,6 +1,6 @@
 /**
-*student name [meseud hadis redi]
- *student id[2210205530]
+ * student name [meseud hadis redi]
+ * student id [2210205530]
  */
 
 #ifndef TREE_FROM_ARRAY_H
@@ -39,7 +39,6 @@ void inorder_traversal(TreeNode* root);
 void preorder_traversal(TreeNode* root);
 void postorder_traversal(TreeNode* root);
 void level_order_traversal(TreeNode* root);
-void print_tree_visual_util(TreeNode* root, int space);
 
 // Tree property functions
 int tree_height(TreeNode* root);
@@ -59,7 +58,7 @@ void tree_to_array_util(TreeNode* root, int arr[], int index, int size);
 // Utility functions
 void print_array(int arr[], int size);
 void print_tree_visual(TreeNode* root);
-void print_tree_visual_util(TreeNode* root, int space);
+void print_tree_visual_util(TreeNode* root, int space);  // ADDED THIS LINE
 
 // Memory management
 void free_tree(TreeNode* root);
