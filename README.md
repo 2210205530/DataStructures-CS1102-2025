@@ -5,10 +5,10 @@ Student Name:[MESEUD HADIS REDI]
 Student ID:[2210205530]  
 Course:2025-2026 Fall Semester  
 
-## 📌 Repository Overview
+## Repository Overview
 This repository contains implementations of 10 fundamental data structures and algorithms assignments.
 
-## 📂 Assignment list
+## Assignment list
 | # | Topic | Status | Complexity Analysis |
 |---|-------|---------|---------------------|
 | 1 | Sparse Matrix Transformation | ✅ Complete | O(n) time, O(1) extra space |
