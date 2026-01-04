@@ -39,6 +39,7 @@ void inorder_traversal(TreeNode* root);
 void preorder_traversal(TreeNode* root);
 void postorder_traversal(TreeNode* root);
 void level_order_traversal(TreeNode* root);
+void print_tree_visual_util(TreeNode* root, int space);
 
 // Tree property functions
 int tree_height(TreeNode* root);
