@@ -232,6 +232,7 @@ int* cluster_by_distance_threshold(Graph* graph, int threshold, int* num_cluster
  * K-means like clustering (simplified)
  * Clusters vertices into k clusters based on connectivity
  */
+// In the k_clusters function, fix the array bounds issue:
 int* k_clusters(Graph* graph, int k, int* success) {
     if (!graph || k <= 0 || k > graph->vertices) {
         *success = 0;
@@ -239,10 +240,11 @@ int* k_clusters(Graph* graph, int k, int* success) {
     }
     
     // Simplified k-clusters algorithm
-    // In a real implementation, you would use k-means or spectral clustering
-    // This is a simplified version for demonstration
-    
     int* cluster_map = (int*)malloc(graph->vertices * sizeof(int));
+    if (!cluster_map) {
+        *success = 0;
+        return NULL;
+    }
     
     // Initialize clusters (simple round-robin assignment)
     for (int i = 0; i < graph->vertices; i++) {
@@ -255,12 +257,15 @@ int* k_clusters(Graph* graph, int k, int* success) {
         
         for (int v = 0; v < graph->vertices; v++) {
             // Count connections to each cluster
-            int cluster_connections[k + 1]; 
-            for (int i = 0; i <= k; i++) cluster_connections[i] = 0;
+            int* cluster_connections = (int*)calloc(k + 1, sizeof(int));
+            if (!cluster_connections) continue;
             
             for (int u = 0; u < graph->vertices; u++) {
                 if (graph->adj_matrix[v][u] > 0) {
-                    cluster_connections[cluster_map[u]] += graph->adj_matrix[v][u];
+                    int cluster = cluster_map[u];
+                    if (cluster >= 1 && cluster <= k) {
+                        cluster_connections[cluster] += graph->adj_matrix[v][u];
+                    }
                 }
             }
             
@@ -277,6 +282,8 @@ int* k_clusters(Graph* graph, int k, int* success) {
                 cluster_map[v] = best_cluster;
                 changed = 1;
             }
+            
+            free(cluster_connections);
         }
         
         if (!changed) break;
@@ -284,6 +291,18 @@ int* k_clusters(Graph* graph, int k, int* success) {
     
     *success = 1;
     return cluster_map;
+}
+
+// Make dfs_clustering static to avoid linker issues
+static void dfs_clustering(Graph* graph, int vertex, bool visited[], int cluster_id, int* cluster_map) {
+    visited[vertex] = true;
+    cluster_map[vertex] = cluster_id;
+    
+    for (int i = 0; i < graph->vertices; i++) {
+        if (graph->adj_matrix[vertex][i] > 0 && !visited[i]) {
+            dfs_clustering(graph, i, visited, cluster_id, cluster_map);
+        }
+    }
 }
 
 /**
