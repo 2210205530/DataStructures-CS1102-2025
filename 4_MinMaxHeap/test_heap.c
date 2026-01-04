@@ -2,7 +2,7 @@
  *student name [meseud hadis redi]
  *student id[2210205530]
  */
-
+#include "heap.h"
 #include <stdio.h>
 #include <stdlib.h>
 
