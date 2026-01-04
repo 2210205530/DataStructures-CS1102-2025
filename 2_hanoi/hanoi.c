@@ -1,7 +1,7 @@
 /**
  * file hanoi.c
  * brief Tower of Hanoi implementation with recursive and iterative solutions
- * author [meseud hadis redi]
+ * sstudent name [meseud hadis redi]
  * student id [2210205530]
  * Time Complexity: O(2^n) - exponential
  * Space Complexity: O(n) - recursion depth
