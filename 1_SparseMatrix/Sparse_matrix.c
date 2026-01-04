@@ -1,3 +1,5 @@
+[file name]: Sparse_matrix.c
+[file content begin]
 /**
 *student name [meseud hadis redi]
  *student id[2210205530]
@@ -8,6 +10,7 @@
  */
 
 #include "sparse_matrix.h"
+#include <assert.h>
 
 /**
  * Creates a new sparse matrix
@@ -81,9 +84,11 @@ SparseMatrix* transpose_sparse(SparseMatrix* matrix) {
     if (!transposed) return NULL;
     
     // Count non-zero elements in each column
-    int count[matrix->cols];
-    for (int i = 0; i < matrix->cols; i++) {
-        count[i] = 0;
+    int* count = (int*)calloc(matrix->cols, sizeof(int));
+    if (!count) {
+        fprintf(stderr, "Error: Memory allocation failed\n");
+        free_sparse(transposed);
+        return NULL;
     }
     
     for (int i = 0; i < matrix->num_non_zero; i++) {
@@ -91,7 +96,14 @@ SparseMatrix* transpose_sparse(SparseMatrix* matrix) {
     }
     
     // Calculate starting position for each column
-    int index[matrix->cols];
+    int* index = (int*)malloc(matrix->cols * sizeof(int));
+    if (!index) {
+        fprintf(stderr, "Error: Memory allocation failed\n");
+        free(count);
+        free_sparse(transposed);
+        return NULL;
+    }
+    
     index[0] = 0;
     for (int i = 1; i < matrix->cols; i++) {
         index[i] = index[i - 1] + count[i - 1];
@@ -110,6 +122,8 @@ SparseMatrix* transpose_sparse(SparseMatrix* matrix) {
         transposed->num_non_zero++;
     }
     
+    free(count);
+    free(index);
     return transposed;
 }
 
@@ -177,11 +191,23 @@ void print_sparse(SparseMatrix* matrix) {
     printf("Sparse Matrix (%dx%d), Non-zero: %d\n", 
            matrix->rows, matrix->cols, matrix->num_non_zero);
     
-    // Create dense representation
-    int dense[matrix->rows][matrix->cols];
+    // Create dense representation using dynamic allocation
+    int** dense = (int**)malloc(matrix->rows * sizeof(int*));
+    if (!dense) {
+        printf("Error: Memory allocation failed\n");
+        return;
+    }
+    
     for (int i = 0; i < matrix->rows; i++) {
-        for (int j = 0; j < matrix->cols; j++) {
-            dense[i][j] = 0;
+        dense[i] = (int*)calloc(matrix->cols, sizeof(int));
+        if (!dense[i]) {
+            // Free already allocated rows
+            for (int j = 0; j < i; j++) {
+                free(dense[j]);
+            }
+            free(dense);
+            printf("Error: Memory allocation failed\n");
+            return;
         }
     }
     
@@ -197,6 +223,12 @@ void print_sparse(SparseMatrix* matrix) {
         }
         printf("\n");
     }
+    
+    // Free allocated memory
+    for (int i = 0; i < matrix->rows; i++) {
+        free(dense[i]);
+    }
+    free(dense);
 }
 
 void free_sparse(SparseMatrix* matrix) {
@@ -204,3 +236,4 @@ void free_sparse(SparseMatrix* matrix) {
         free(matrix);
     }
 }
+[file content end]
