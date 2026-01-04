@@ -8,8 +8,8 @@
 #include <assert.h>
 #include <stdbool.h>
 
-// Include the functions from graph_cluster.c
-#include "graph_cluster.c"
+// Include the header file instead of .c file
+#include "graph_cluster.h"
 
 /**
  * Test Union-Find operations
@@ -101,9 +101,11 @@ void test_connectivity_clustering() {
     }
     
     Graph* graph = create_graph(6, adj_large);
+    assert(graph != NULL);
     
     int num_clusters;
     int* clusters = cluster_by_connectivity(graph, &num_clusters);
+    assert(clusters != NULL);
     
     assert(num_clusters == 2);
     
@@ -147,9 +149,11 @@ void test_dfs_clustering() {
     }
     
     Graph* graph = create_graph(6, adj_large);
+    assert(graph != NULL);
     
     int num_clusters;
     int* clusters = cluster_dfs(graph, &num_clusters);
+    assert(clusters != NULL);
     
     assert(num_clusters == 2);
     assert(clusters[0] == clusters[1]);
@@ -186,16 +190,19 @@ void test_distance_clustering() {
     }
     
     Graph* graph = create_graph(5, adj_large);
+    assert(graph != NULL);
     
     int num_clusters;
     
     // Test with threshold 4 (should create multiple clusters)
     int* clusters = cluster_by_distance_threshold(graph, 4, &num_clusters);
+    assert(clusters != NULL);
     assert(num_clusters > 1);
     free(clusters);
     
     // Test with threshold 10 (all should be in one cluster)
     clusters = cluster_by_distance_threshold(graph, 10, &num_clusters);
+    assert(clusters != NULL);
     assert(num_clusters == 1);
     
     free(clusters);
@@ -225,6 +232,7 @@ void test_k_clusters() {
     }
     
     Graph* graph = create_graph(4, adj_large);
+    assert(graph != NULL);
     
     int success;
     int* clusters = k_clusters(graph, 2, &success);
@@ -257,15 +265,18 @@ void test_edge_cases() {
     // Test empty graph (0 vertices)
     int empty_adj[MAX_VERTICES][MAX_VERTICES] = {0};
     Graph* empty_graph = create_graph(0, empty_adj);
+    assert(empty_graph != NULL);
     clusters = cluster_by_connectivity(empty_graph, &num_clusters);
+    assert(clusters == NULL);
     assert(num_clusters == 0);
-    free(clusters);
     free(empty_graph);
     
     // Test single vertex graph
     int single_adj[MAX_VERTICES][MAX_VERTICES] = {{0}};
     Graph* single_graph = create_graph(1, single_adj);
+    assert(single_graph != NULL);
     clusters = cluster_by_connectivity(single_graph, &num_clusters);
+    assert(clusters != NULL);
     assert(num_clusters == 1);
     assert(clusters[0] == 1);
     free(clusters);
@@ -314,8 +325,11 @@ void test_cluster_stats() {
     // Create a simple clustering result
     int cluster_map[5] = {1, 1, 2, 2, 3};
     
-    // We'll just verify the function doesn't crash
+    // Test the function doesn't crash with valid input
     calculate_cluster_stats(cluster_map, 5, 3);
+    
+    // Test with NULL input
+    calculate_cluster_stats(NULL, 5, 3);
     
     printf("PASS\n");
 }
@@ -339,9 +353,8 @@ int main() {
     printf("\n=== ALL TESTS PASSED ===\n\n");
     
     printf("To run the main program:\n");
-    printf("1. cd 8_GraphClustering\n");
-    printf("2. gcc -o graph_cluster graph_cluster.c\n");
-    printf("3. ./graph_cluster\n");
+    printf("1. gcc -o test_graph test_graph.c graph_cluster.c\n");
+    printf("2. ./test_graph\n");
     
     return 0;
 }
