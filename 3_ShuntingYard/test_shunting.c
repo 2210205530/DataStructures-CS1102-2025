@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include "shunting_yard.h"
 
 // Function declarations (from shunting_yard.c)
 int infix_to_postfix(const char *infix, char *postfix);
