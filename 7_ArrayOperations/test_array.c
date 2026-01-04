@@ -1,5 +1,5 @@
 /**
-*student name [meseud hadis redi]
+ *student name [meseud hadis redi]
  *student id[2210205530]
  */
 
@@ -7,8 +7,8 @@
 #include <stdlib.h>
 #include <assert.h>
 
-// Include the functions from array_ops.c
-#include "array_ops.c"
+// Include the header file instead
+#include "array_ops.h"
 
 /**
  * Test creation and basic insertion
@@ -33,7 +33,7 @@ void test_creation_and_insert() {
     assert(arr->data[1] == 10);
     
     // Insert at position
-    insert_at_position(arr, 7, 1);
+    assert(insert_at_position(arr, 7, 1) == 1);
     assert(arr->size == 3);
     assert(arr->data[0] == 5);
     assert(arr->data[1] == 7);
@@ -50,6 +50,7 @@ void test_deletion() {
     printf("Test 2: Deletion operations... ");
     
     DynamicArray* arr = create_array();
+    assert(arr != NULL);
     
     // Add elements
     insert_at_end(arr, 10);
@@ -90,6 +91,7 @@ void test_search_and_update() {
     printf("Test 3: Search and update... ");
     
     DynamicArray* arr = create_array();
+    assert(arr != NULL);
     
     insert_at_end(arr, 10);
     insert_at_end(arr, 20);
@@ -103,8 +105,7 @@ void test_search_and_update() {
     assert(get_at_position(arr, 1) == 20);
     
     // Test update
-    int old_value = update_at_position(arr, 1, 25);
-    assert(old_value == 20);
+    assert(update_at_position(arr, 1, 25) == 1);
     assert(arr->data[1] == 25);
     
     free_array(arr);
@@ -118,6 +119,7 @@ void test_reverse_and_sort() {
     printf("Test 4: Reverse and sort... ");
     
     DynamicArray* arr = create_array();
+    assert(arr != NULL);
     
     insert_at_end(arr, 30);
     insert_at_end(arr, 10);
@@ -146,6 +148,7 @@ void test_remove_duplicates() {
     printf("Test 5: Remove duplicates... ");
     
     DynamicArray* arr = create_array();
+    assert(arr != NULL);
     
     insert_at_end(arr, 10);
     insert_at_end(arr, 20);
@@ -171,6 +174,7 @@ void test_rotation() {
     printf("Test 6: Rotation... ");
     
     DynamicArray* arr = create_array();
+    assert(arr != NULL);
     
     for (int i = 1; i <= 5; i++) {
         insert_at_end(arr, i);
@@ -203,16 +207,19 @@ void test_merge_sorted_arrays() {
     printf("Test 7: Merge sorted arrays... ");
     
     DynamicArray* arr1 = create_array();
+    DynamicArray* arr2 = create_array();
+    assert(arr1 != NULL && arr2 != NULL);
+    
     insert_at_end(arr1, 1);
     insert_at_end(arr1, 3);
     insert_at_end(arr1, 5);
     
-    DynamicArray* arr2 = create_array();
     insert_at_end(arr2, 2);
     insert_at_end(arr2, 4);
     insert_at_end(arr2, 6);
     
     DynamicArray* merged = merge_sorted_arrays(arr1, arr2);
+    assert(merged != NULL);
     
     assert(merged->size == 6);
     for (int i = 0; i < 6; i++) {
@@ -232,6 +239,7 @@ void test_dynamic_resizing() {
     printf("Test 8: Dynamic resizing... ");
     
     DynamicArray* arr = create_array();
+    assert(arr != NULL);
     
     // Add more elements than initial capacity
     for (int i = 0; i < 20; i++) {
@@ -260,6 +268,7 @@ void test_edge_cases() {
     
     // Test empty array operations
     DynamicArray* arr = create_array();
+    assert(arr != NULL);
     
     assert(delete_from_end(arr) == -1);
     assert(delete_from_beginning(arr) == -1);
@@ -301,9 +310,8 @@ int main() {
     printf("\n=== ALL TESTS PASSED ===\n\n");
     
     printf("To run the main program:\n");
-    printf("1. cd 7_ArrayOperations\n");
-    printf("2. gcc -o array_ops array_ops.c\n");
-    printf("3. ./array_ops\n");
+    printf("1. gcc -o test_array test_array.c array_ops.c\n");
+    printf("2. ./test_array\n");
     
     return 0;
 }
